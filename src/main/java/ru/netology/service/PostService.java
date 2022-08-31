@@ -6,6 +6,7 @@ import ru.netology.model.Post;
 import ru.netology.repository.PostRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PostService {
@@ -19,15 +20,15 @@ public class PostService {
         return repository.all();
     }
 
-    public Post getById(long id) {
-        return repository.getById(id).orElseThrow(NotFoundException::new);
+    public Optional<Post> getById(Long id) {
+        return repository.getById(id);
     }
 
     public Post save(Post post) {
         return repository.save(post);
     }
 
-    public void removeById(long id) {
+    public void removeById(Long id) {
         repository.removeById(id);
     }
 }

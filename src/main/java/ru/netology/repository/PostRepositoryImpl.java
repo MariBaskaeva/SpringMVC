@@ -5,18 +5,19 @@ import ru.netology.exception.NotFoundException;
 import ru.netology.model.Post;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class PostRepositoryImpl implements PostRepository {
-    private final Map<Long, Post> posts = new HashMap<>();
+    private final Map<Long, Post> posts = new ConcurrentHashMap<>();
     private final AtomicLong identifier = new AtomicLong();
 
     public List<Post> all() {
         return new ArrayList<>(posts.values());
     }
 
-    public Optional<Post> getById(long id) {
+    public Optional<Post> getById(Long id) {
         return Optional.ofNullable(posts.get(id));
     }
 
@@ -32,7 +33,9 @@ public class PostRepositoryImpl implements PostRepository {
         return post;
     }
 
-    public void removeById(long id) {
-        posts.remove(id);
+    public void removeById(Long id) {
+        if(posts.remove(id) == null){
+            throw new NotFoundException();
+        }
     }
 }

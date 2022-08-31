@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface PostRepository {
     List<Post> all();
 
-    Optional<Post> getById(long id);
+    Optional<Post> getById(Long id);
 
     Post save(Post post);
 
-    void removeById(long id);
+    void removeById(Long id);
 }

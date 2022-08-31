@@ -1,5 +1,7 @@
 package ru.netology.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.netology.model.Post;
 import ru.netology.service.PostService;
@@ -21,8 +23,13 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public Post getById(@PathVariable long id) {
-        return service.getById(id);
+    public ResponseEntity<Post> getById(@PathVariable Long id) {
+        final var data = service.getById(id);
+        if (data.isPresent()) {
+            return new ResponseEntity<>(data.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping
@@ -31,7 +38,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public void removeById(long id) {
+    public void removeById(@PathVariable Long id) {
         service.removeById(id);
     }
 }
